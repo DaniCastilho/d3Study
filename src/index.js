@@ -4,15 +4,15 @@ import _ from "lodash";
 (function() {
   const dataset = _.map(_.range(25), i => {
     return {
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      r: Math.random() * 30
+      x: Math.round(Math.random() * 100),
+      y: Math.round(Math.random() * 100),
+      r: Math.round(5 + Math.random() * 10)
     };
   });
-  var margin = { top: 0, right: 0, bottom: 0, left: 0 };
+  const margin = { top: 30, right: 30, bottom: 30, left: 30 };
 
-  const w = 400 - margin.left - margin.right;
-  const h = 300 - margin.top - margin.bottom;
+  const w = 500 - margin.left - margin.right;
+  const h = 400 - margin.top - margin.bottom;
 
   const svg = d3
     .select("#chartArea")
@@ -22,16 +22,36 @@ import _ from "lodash";
     .append("g")
     .attr("transform", "translate(" + margin.left + ", " + margin.top + ")");
 
-  var xScale = d3
+  const xScale = d3
     .scaleLinear()
     .domain([0, 100])
     .rangeRound([0, w]);
 
-  var yScale = d3
+  const xAxis = d3
+    .axisBottom()
+    .scale(xScale)
+    .ticks(5)
+    .tickPadding(6)
+    .tickSizeInner(6)
+    .tickSizeOuter(12);
+
+  svg
+    .append("g")
+    .attr("class", "x axis")
+    .attr("transform", "translate(0," + h + ")")
+    .call(xAxis);
+
+  const yScale = d3
     .scaleLinear()
     .domain([0, d3.max(dataset, d => d.y)])
     .range([h, 0]);
 
+  const yAxis = d3.axisLeft().scale(yScale);
+  svg
+    .append("g")
+    .attr("class", "y axis")
+    .attr("transform", "translate(0, 0)")
+    .call(yAxis);
   svg
     .selectAll("circle")
     .data(dataset)
@@ -41,5 +61,17 @@ import _ from "lodash";
     .attr("fill", "purple")
     .attr("cx", d => xScale(d.x))
     .attr("cy", d => yScale(d.y))
-    .attr("r", d => d.r);
+    .attr("r", d => d.r)
+    .on("mouseover", function(d) {
+      d3.select(this).classed("active", true);
+    })
+    .on("mouseout", function(d) {
+      d3.select(this).classed("active", false);
+    })
+    .on("mousedown", function(d) {
+      d3.select(this).attr("r", d.r * 2);
+    })
+    .on("mouseup", function(d) {
+      d3.select(this).attr("r", d.r);
+    });
 })();
