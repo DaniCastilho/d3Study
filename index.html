@@ -4,21 +4,33 @@
 	<title>Parcel Sandbox</title>
 	<meta charset="UTF-8" />
 	<style>
-
-		body{
-			padding: 50px;
-		}
-
 		#chartArea {
-			width:400px;
-			height: 300px;
-			background-color: #efefef;
+			width: 500px;
+			height: 400px;
+			background-color: #CCC;
 		}
-		.bar{
-			/* fill: teal; */
-		}			
 
 
+		.dot {
+			fill: teal;
+			fill-opacity: 0.7;
+			stroke: black;
+		}
+
+
+		.active {
+			fill: magenta;
+			fill-opacity: 0.5;
+			stroke-width: 3px;
+		}
+
+		.axis path,
+		.axis line {
+			fill: none;
+			stroke: #000;
+			stroke-width: 1px;
+			shape-rendering: crispEdges;
+		}
 	</style>
 </head>
 
