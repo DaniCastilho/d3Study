@@ -32,6 +32,11 @@ import _ from "lodash";
     .domain([0, d3.max(dataset, d => d.y)])
     .range([h, 0]);
 
+  var colorScale = d3
+    .scaleLinear()
+    .domain([0, d3.max(dataset)])
+    .range(["blue", "purple"]);
+
   svg
     .selectAll("circle")
     .data(dataset)
@@ -41,5 +46,5 @@ import _ from "lodash";
     .attr("fill", "purple")
     .attr("cx", d => xScale(d.x))
     .attr("cy", d => yScale(d.y))
-    .attr("r", d => d.r);
+
 })();
