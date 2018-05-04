@@ -46,16 +46,19 @@ import _ from "lodash";
     .domain([0, d3.max(dataset, d => d.y)])
     .range([h, 0]);
 
+
   const yAxis = d3.axisLeft().scale(yScale);
   svg
     .append("g")
     .attr("class", "y axis")
     .attr("transform", "translate(0, 0)")
     .call(yAxis);
+  
   svg
     .selectAll("circle")
     .data(dataset)
     .enter()
+
     .append("circle")
     .attr("class", "bubble")
     .attr("fill", "purple")
